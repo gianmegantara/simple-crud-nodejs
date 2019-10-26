@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=namaHalaman%></title>
+</head>
+<nav>
+    <ul>
+        <li><a href="/form-barang">Tambah Barang</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h1>List Barang</h1>
+
+    <% if (listBarang.length > 0 ) {%>
+    <% for (let barang of listBarang){%>
+    <hr>
+    <table>
+        <tr>
+            <td>Nama Barang</td>
+            <td><%= barang.namaBarang %></td>
+        </tr>
+        <tr>
+            <td>Gambar</td>
+            <td><img src="<%= barang.urlGambar %>"></td>
+        </tr>
+        <tr>
+            <td>Harga Barang</td>
+            <td><%= barang.hargaBarang %></td>
+        </tr>
+        <tr>
+            <td>Deskripsi Barang</td>
+            <td><%= barang.deskripsiBarang %></td>
+        </tr>
+        <tr>
+            <td><a href="/edit-barang/<%=barang.idBarang%>?edit=true">Edit</a></td>
+            <td><a href="/delete-barang/<%=barang.idBarang%>">Delete</a></td>
+        </tr>
+    </table>
+    <hr>
+    <%}%>
+    <% } else {%>
+    <h2>Tidak Ada Barang</h2>
+    <% } %>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=namaHalaman%></title>
+</head>
+
+<h3><%=namaHalaman%></h3>
+
+<body>
+    <form action="/<% if (halamanEdit) {%>edit-barang<% } else { %>tambah-barang<% } %>" method="POST">
+        <% if (halamanEdit) {%>
+        <input type="hidden" name="idBarang" value="<%= dataBarang.idBarang%>">
+        <% } %>
+
+        <table>
+            <tr>
+                <td>Nama Barang</td>
+                <td><input type="text" name="namaBarang" value="<%if(halamanEdit) {%><%=dataBarang.namaBarang%><% } %>">
+                </td>
+            </tr>
+            <tr>
+                <td>Link Gambar</td>
+                <td><input type="text" name="urlGambar" value="<%if(halamanEdit) {%><%=dataBarang.urlGambar%><% } %>">
+                </td>
+            </tr>
+            <tr>
+                <td>Harga</td>
+                <td><input type="number" name="hargaBarang"
+                        value="<%if(halamanEdit) {%><%=dataBarang.hargaBarang%><% } %>">
+                </td>
+            </tr>
+            <tr>
+                <td>Deskripsi</td>
+                <td><textarea name="deskripsiBarang" cols="20"
+                        rows="10"><%if(halamanEdit) {%><%=dataBarang.deskripsiBarang%><% } %></textarea></td>
+            </tr>
+            <tr>
+                <td><button type="submit"><% if (halamanEdit) {%>Edit Barang<% } else {%>Tambah Barang<% } %></button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
