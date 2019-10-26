@@ -17,12 +17,13 @@ exports.getTambahBarang = (req, res, next) => {
 };
 
 exports.postTambahBarang = (req, res, next) => {
+    const idBarang = Math.random().toString();
     const namaBarang = req.body.namaBarang;
     const urlGambar = req.body.urlGambar;
     const hargaBarang = req.body.hargaBarang;
     const deskripsiBarang = req.body.deskripsiBarang;
 
-    const barang = new Barang(null, namaBarang, urlGambar, hargaBarang, deskripsiBarang)
+    const barang = new Barang(idBarang, namaBarang, urlGambar, hargaBarang, deskripsiBarang)
     barang.save();
     res.redirect('/');
 
@@ -54,7 +55,7 @@ exports.postEditBarang = (req, res, next) => {
     const deskripsiBarangUpd = req.body.deskripsiBarang;
 
     const barangUpdate = new Barang(idBarang, namaBarangUpd, urlGambarUpd, hargaBarangUpd, deskripsiBarangUpd);
-    barangUpdate.save();
+    barangUpdate.update();
     res.redirect('/');
 };
 

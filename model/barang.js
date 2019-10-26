@@ -25,20 +25,23 @@ module.exports = class Barang {
     }
     save() {
         ambilBarangDariFile(listBarang => {
-            if (this.idBarang) {
-                const idBarangEksisting = listBarang.findIndex(barang => barang.idBarang === this.idBarang);
-                const barangTerupdate = [...listBarang];
-                barangTerupdate[idBarangEksisting] = this;
-                fs.writeFile(p, JSON.stringify(barangTerupdate), err => {
-                    console.log(err);
-                });
-            } else {
-                this.idBarang = Math.random().toString();
-                listBarang.push(this);
-                fs.writeFile(p, JSON.stringify(listBarang), err => {
-                    console.log(err);
-                });
-            }
+            listBarang.push(this);
+            fs.writeFile(p, JSON.stringify(listBarang), err => {
+                console.log(err);
+            })
+        })
+    }
+
+    update() {
+        ambilBarangDariFile(listBarang => {
+            const eksistingIdBarang = listBarang.findIndex(
+                barang => barang.id === this.id
+            );
+            const updatedBarang = [...listBarang];
+            updatedBarang[eksistingIdBarang] = this;
+            fs.writeFile(p, JSON.stringify(updatedBarang), err => {
+                console.log(err);
+            });
         })
     }
 
@@ -54,7 +57,6 @@ module.exports = class Barang {
     };
 
     static deleteById(idBarang) {
-        console.log(idBarang);
         ambilBarangDariFile(listBarang => {
             const barangTerudate = listBarang.filter(barang => barang.idBarang !== idBarang);
             console.log(barangTerudate);
