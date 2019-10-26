@@ -1,3 +1,9 @@
 # simple-crud-nodejs
 
-its just simple crud use JSON file, if you wanna try just install node.js and clone this repo, and run it
+this is only simple project for my nodejs courses, which is in the inside iam implement something what i learn:
+1. nodemon 
+2. expressjs
+3. templating with 'ejs'
+4. crud (create, read, update, delete) use json file
+5. mvc workflow
+
