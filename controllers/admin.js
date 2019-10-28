@@ -21,6 +21,7 @@ exports.getTambahBarang = (req, res, next) => {
 };
 
 exports.postTambahBarang = (req, res, next) => {
+    const idBarang = Math.random().toString();
     const namaBarang = req.body.namaBarang;
     const urlGambar = req.body.urlGambar;
     const hargaBarang = req.body.hargaBarang;
@@ -34,6 +35,7 @@ exports.postTambahBarang = (req, res, next) => {
         .catch(err => {
             console.log(err)
         })
+
 };
 
 exports.getEditBarang = (req, res, next) => {
@@ -63,6 +65,7 @@ exports.postEditBarang = (req, res, next) => {
     const deskripsiBarangUpd = req.body.deskripsiBarang;
 
     const barangUpdate = new Barang(idBarang, namaBarangUpd, urlGambarUpd, hargaBarangUpd, deskripsiBarangUpd);
+
     barangUpdate.updateDataBarang(idBarang)
         .then(() => {
             res.redirect('/')
@@ -70,6 +73,7 @@ exports.postEditBarang = (req, res, next) => {
         .catch(err => {
             console.log(err)
         })
+
 
 };
 

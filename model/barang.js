@@ -7,9 +7,10 @@ module.exports = class Barang {
         this.hargaBarang = hargaBarang;
         this.deskripsiBarang = deskripsiBarang;
     }
+
     tambahDataBarang() {
         return dbConnection.execute('INSERT INTO barang (namaBarang,urlGambar,hargaBarang,deskripsiBarang) VALUES (?,?,?,?)', [this.namaBarang, this.urlGambar, this.hargaBarang, this.deskripsiBarang])
-    };
+    }
 
     static ambilDataBarang() {
         return dbConnection.execute('SELECT * FROM barang');
@@ -26,4 +27,5 @@ module.exports = class Barang {
     static deleteByIdBarang(idBarang) {
         return dbConnection.execute('DELETE FROM barang WHERE barang.idBarang =?', [idBarang])
     };
+
 };
