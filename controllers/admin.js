@@ -1,12 +1,16 @@
 const Barang = require('../model/barang');
 
 exports.getIndex = (req, res, next) => {
-    Barang.ambilDataBarang(barang => {
-        res.render('index', {
-            listBarang: barang,
-            namaHalaman: 'List Barang'
+    Barang.ambilDataBarang()
+        .then(([dataBarang]) => {
+            res.render('index', {
+                listBarang: dataBarang,
+                namaHalaman: 'List Barang'
+            });
+        })
+        .catch(err => {
+            console.log(err);
         });
-    });
 };
 
 exports.getTambahBarang = (req, res, next) => {
@@ -23,9 +27,13 @@ exports.postTambahBarang = (req, res, next) => {
     const deskripsiBarang = req.body.deskripsiBarang;
 
     const barang = new Barang(null, namaBarang, urlGambar, hargaBarang, deskripsiBarang)
-    barang.save();
-    res.redirect('/');
-
+    barang.tambahDataBarang()
+        .then(() => {
+            res.redirect('/')
+        })
+        .catch(err => {
+            console.log(err)
+        })
 };
 
 exports.getEditBarang = (req, res, next) => {
@@ -34,16 +42,17 @@ exports.getEditBarang = (req, res, next) => {
         return res.redirect('/');
     }
     const idBarang = req.params.idBarang;
-    Barang.cariIdBarang(idBarang, barang => {
-        if (!barang) {
-            return res.redirect('/');
-        }
-        res.render('form-barang', {
-            namaHalaman: 'Edit Barang',
-            halamanEdit: modeEdit,
-            dataBarang: barang
-        });
-    });
+    Barang.cariBarangById(idBarang)
+        .then(([barang]) => {
+            res.render('form-barang', {
+                namaHalaman: 'Form Edit',
+                dataBarang: barang[0],
+                halamanEdit: modeEdit
+            })
+        })
+        .catch(err => {
+            console.error(err)
+        })
 };
 
 exports.postEditBarang = (req, res, next) => {
@@ -54,12 +63,24 @@ exports.postEditBarang = (req, res, next) => {
     const deskripsiBarangUpd = req.body.deskripsiBarang;
 
     const barangUpdate = new Barang(idBarang, namaBarangUpd, urlGambarUpd, hargaBarangUpd, deskripsiBarangUpd);
-    barangUpdate.save();
-    res.redirect('/');
+    barangUpdate.updateDataBarang(idBarang)
+        .then(() => {
+            res.redirect('/')
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
 };
 
 exports.getDeleteBarang = (req, res, next) => {
     const idBarang = req.params.idBarang;
-    Barang.deleteById(idBarang);
-    res.redirect('/');
+    Barang.deleteByIdBarang(idBarang)
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
 }
