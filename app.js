@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const dbConnection = require('./util/database');
 
 const app = express();
 
@@ -11,9 +12,6 @@ const adminRoute = require('./routes/admin');
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
-
-
 app.use(adminRoute);
 
-app.listen(4848);
+app.listen(5001)

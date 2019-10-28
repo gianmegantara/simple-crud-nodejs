@@ -1,0 +1,10 @@
+//make database name waw than execute these query
+
+CREATE TABLE barang (
+    idBarang int NOT NULL AUTO_INCREMENT,
+    namaBarang varchar(255) NOT NULL,
+    urlGambar varchar(255) NOT NULL,
+    hargaBarang int NOT NULL,
+    deskripsiBarang text NOT NULL,
+    PRIMARY KEY (idBarang)
+   );
