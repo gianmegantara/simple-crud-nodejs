@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dbConnection = require('./util/database');
+const Barang = require('./model/barang')
 
 const app = express();
 
@@ -14,4 +15,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(adminRoute);
 
-app.listen(5001)
+dbConnection.sync()
+    .then(() => {
+        app.listen(5001)
+    })
+    .catch(err => {
+        console.log(err)
+    })
