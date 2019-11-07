@@ -1,8 +1,8 @@
 const Barang = require('../model/barang');
 
 exports.getIndex = (req, res, next) => {
-    Barang.ambilDataBarang()
-        .then(([dataBarang]) => {
+    Barang.findAll()
+        .then(dataBarang => {
             res.render('index', {
                 listBarang: dataBarang,
                 namaHalaman: 'List Barang'
@@ -21,21 +21,24 @@ exports.getTambahBarang = (req, res, next) => {
 };
 
 exports.postTambahBarang = (req, res, next) => {
-    const idBarang = Math.random().toString();
     const namaBarang = req.body.namaBarang;
-    const urlGambar = req.body.urlGambar;
+    const urlBarang = req.body.urlBarang;
     const hargaBarang = req.body.hargaBarang;
     const deskripsiBarang = req.body.deskripsiBarang;
 
-    const barang = new Barang(null, namaBarang, urlGambar, hargaBarang, deskripsiBarang)
-    barang.tambahDataBarang()
-        .then(() => {
+    Barang.create({
+            namaBarang: namaBarang,
+            urlBarang: urlBarang,
+            hargaBarang: hargaBarang,
+            deskripsiBarang: deskripsiBarang
+        })
+        .then(result => {
+            console.log('Berhasil Menambah Barang')
             res.redirect('/')
         })
         .catch(err => {
             console.log(err)
         })
-
 };
 
 exports.getEditBarang = (req, res, next) => {
@@ -44,11 +47,11 @@ exports.getEditBarang = (req, res, next) => {
         return res.redirect('/');
     }
     const idBarang = req.params.idBarang;
-    Barang.cariBarangById(idBarang)
-        .then(([barang]) => {
+    Barang.findByPk(idBarang)
+        .then(barang => {
             res.render('form-barang', {
                 namaHalaman: 'Form Edit',
-                dataBarang: barang[0],
+                dataBarang: barang,
                 halamanEdit: modeEdit
             })
         })
@@ -60,14 +63,20 @@ exports.getEditBarang = (req, res, next) => {
 exports.postEditBarang = (req, res, next) => {
     const idBarang = req.body.idBarang;
     const namaBarangUpd = req.body.namaBarang;
-    const urlGambarUpd = req.body.urlGambar;
+    const urlBarangUpd = req.body.urlBarang;
     const hargaBarangUpd = req.body.hargaBarang;
     const deskripsiBarangUpd = req.body.deskripsiBarang;
 
-    const barangUpdate = new Barang(idBarang, namaBarangUpd, urlGambarUpd, hargaBarangUpd, deskripsiBarangUpd);
-
-    barangUpdate.updateDataBarang(idBarang)
-        .then(() => {
+    Barang.findByPk(idBarang)
+        .then(barang => {
+            barang.namaBarang = namaBarangUpd;
+            barang.urlBarang = urlBarangUpd;
+            barang.hargaBarang = hargaBarangUpd;
+            barang.deskripsiBarang = deskripsiBarangUpd;
+            return barang.save()
+        })
+        .then(result => {
+            console.log('Berhasil Mengupdate Barang')
             res.redirect('/')
         })
         .catch(err => {
@@ -79,9 +88,13 @@ exports.postEditBarang = (req, res, next) => {
 
 exports.getDeleteBarang = (req, res, next) => {
     const idBarang = req.params.idBarang;
-    Barang.deleteByIdBarang(idBarang)
-        .then(() => {
-            res.redirect('/');
+    Barang.findByPk(idBarang)
+        .then(barang => {
+            return barang.destroy()
+        })
+        .then(result => {
+            console.log('Berhasil Menghapus Barang')
+            res.redirect('/')
         })
         .catch(err => {
             console.log(err)
